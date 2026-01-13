@@ -45,15 +45,26 @@ const PersonForm = ({
         name: newName,
         number: newNumber,
       };
-      personService.create(personObject).then((response) => {
-        setPersons(persons.concat(response.data));
-        setNewName("");
-        setNewNumber("");
-      });
-      setMessage(`Added ${personObject.name}`);
-      setTimeout(() => {
-        setMessage(null);
-      }, 5000);
+      personService
+        .create(personObject)
+        .then((response) => {
+          if (response && response.data) {
+            setPersons(persons.concat(response.data));
+            setNewName("");
+            setNewNumber("");
+            setMessage(`Added ${personObject.name}`);
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
+          }
+        })
+        .catch((error) => {
+          const errorMessage = error.response.data.error;
+          setError(errorMessage);
+          setTimeout(() => {
+            setError(null);
+          }, 5000);
+        });
     }
   };
 
