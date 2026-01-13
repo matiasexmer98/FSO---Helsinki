@@ -41,6 +41,13 @@ const PersonForm = ({
           });
       }
     } else {
+      if (newName.length < 3) {
+        setError(`Name ${newName} is too short (min 3 characters) `);
+        setTimeout(() => {
+          setError(null);
+        }, 5000);
+        return;
+      }
       const personObject = {
         name: newName,
         number: newNumber,
